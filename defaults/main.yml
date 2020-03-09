@@ -53,3 +53,17 @@ openldap_users:
     homeDirectory: /home/john
 
 openldap_tld: org
+
+# Define a set of schema specifications files. 
+# For non basics schema yo need also to create files/openldap/{{name}}.schema. This file will be copied and coverted to ldif before insert to the LDAP tree
+openldap_schemas:
+  - core
+  - cosine
+  - inetorgperson
+  - nis
+
+# Define DB Engine (mdb / hdb)
+openldap_db_engine: MDB
+
+# Temp files path
+openldap_ldif_tmp_dir: /tmp/ldifs
