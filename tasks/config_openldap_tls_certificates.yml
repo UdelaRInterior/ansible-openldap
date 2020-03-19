@@ -1,0 +1,21 @@
+---
+- name: config_openldap_tls_certificates | creating ldif
+  template:
+    src: etc/ldap/slapd.d/tls.ldif.j2
+    dest: '{{ openldap_ldif_tmp_dir }}/tls.ldif'
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: config_openldap_tls_certificates | modifying configuration
+  command: ldapmodify -Y EXTERNAL -H ldapi:/// -f {{ openldap_ldif_tmp_dir }}/tls.ldif
+  ignore_errors: yes
+
+- name: config_openldap_schemas_ldfis | activating ldaps
+  lineinfile:
+    path: "/etc/default/slapd"
+    regexp: "^SLAPD_SERVICES="
+    line: 'SLAPD_SERVICES="ldap:///  ldaps:/// ldapi:///"'
+  become: true
+

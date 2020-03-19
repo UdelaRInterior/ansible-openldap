@@ -18,6 +18,25 @@
   become: true
   when: '"phpldapadmin" in openldap_debian_packages'
 
+- name: config_openldap | creating temp folder
+  file:
+    path: '{{ openldap_ldif_tmp_dir }}'
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
+  become: true
+
+- name: config_openldap | configurating SSL/TLS
+  include_tasks: config_openldap_tls_certificates.yml
+  when: 'openldap_tls_cert != ""'
+
+#- name: config_openldap | deleting temp folder
+#  file:
+#    path: '{{ openldap_ldif_tmp_dir }}'
+#    state: absent
+#  become: true
+
 - name: config_openldap | creating database population config
   template:
     src: etc/ldap/slapd.d/populate_content.ldif.j2

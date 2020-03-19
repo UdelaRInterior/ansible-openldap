@@ -53,3 +53,9 @@ openldap_users:
     homeDirectory: /home/john
 
 openldap_tld: org
+
+openldap_ldif_tmp_dir: /tmp/ldifs
+
+openldap_tls_cert: ""
+openldap_tls_cert_key: ""
+openldap_tls_ca_cert: ""
