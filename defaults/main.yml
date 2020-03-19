@@ -67,3 +67,5 @@ openldap_db_engine: MDB
 
 # Temp files path
 openldap_ldif_tmp_dir: /tmp/ldifs
+
+openldap_overlays: []
