@@ -10,14 +10,14 @@
     - 'files/openldap/schema/*.schema'
   become: true
 
-- name: config_openldap_schemas | creating temp folder
-  file:
-    path: '{{ openldap_ldif_tmp_dir }}'
-    state: directory
-    owner: 'root'
-    group: 'root'
-    mode: '0640'
-  become: true
+#- name: config_openldap_schemas | creating temp folder
+#  file:
+#    path: '{{ openldap_ldif_tmp_dir }}'
+#    state: directory
+#    owner: 'root'
+#    group: 'root'
+#    mode: '0640'
+#  become: true
 
 - name: config_openldap_schemas | creating a conversion file
   template:
@@ -37,9 +37,9 @@
   loop_control:
     loop_var: schema
 
-- name: config_openldap_schemas | deleting temp folder
-  file:
-    path: '{{ openldap_ldif_tmp_dir }}'
-    state: absent
-  become: true
+#- name: config_openldap_schemas | deleting temp folder
+#  file:
+#    path: '{{ openldap_ldif_tmp_dir }}'
+#    state: absent
+#  become: true
 
