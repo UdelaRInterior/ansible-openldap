@@ -33,7 +33,7 @@
 
 - name: config_openldap | managing overlays
   include_tasks: config_openldap_overlays.yml
-  with_items: "{{ openldap_overlays }}"
+  with_items: "{{ openldap_overlays_and_acls }}"
   loop_control:
     loop_var: overlay
 
@@ -49,7 +49,7 @@
 
 - name: config_openldap | creating database population config
   template:
-    src: etc/ldap/slapd.d/populate_content.ldif.j2
+    src: "{{openldap_populate_template}}"
     dest: /etc/ldap/slapd.d/populate_content.ldif
     owner: root
     group: root

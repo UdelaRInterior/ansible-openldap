@@ -30,6 +30,9 @@ openldap_phpldapadmin_hide_warnings: true
 # openldap_posixgroups and openldap_users
 openldap_populate: false
 
+# Defines the path of the template used to pupulate the openldap DB.
+openldap_populate_template: etc/ldap/slapd.d/populate_content.ldif.j2
+
 # Defines groups to create within OU's
 openldap_posixgroups:
   - name: miners
@@ -55,7 +58,7 @@ openldap_users:
 openldap_tld: org
 
 # Define a set of schema specifications files. 
-# For non basics schema yo need also to create files/openldap/{{name}}.schema. This file will be copied and coverted to ldif before insert to the LDAP tree
+# For a non basic schema, Its .schema file must be placed in files/openldap/schema/. This file will be copied and converted to ldif before being inserted to LDAP tree
 openldap_schemas:
   - core
   - cosine
@@ -68,8 +71,19 @@ openldap_db_engine: MDB
 # Temp files path
 openldap_ldif_tmp_dir: /tmp/ldifs
 
-openldap_overlays: []
+# Define a the set of ldif files to configure some Overlays or ACLs
+# All ldif files must be placed in files/openldap/overlays/
+# Use example
+#openldap_overlays_and_acls:
+#  - name: overlay1
+#    ldifs: 
+#      - path: file1.ldif
+#        action: modify //ldapmodify
+#      - path: file2.ldif
+#        action: add //ldapadd
+openldap_overlays_and_acls: []
 
+# Indicate the paths to TLS key and certificate, and CA's certificate
 openldap_tls_cert: ""
 openldap_tls_cert_key: ""
 openldap_tls_ca_cert: ""

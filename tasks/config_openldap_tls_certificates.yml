@@ -12,7 +12,7 @@
   command: ldapmodify -Y EXTERNAL -H ldapi:/// -f {{ openldap_ldif_tmp_dir }}/tls.ldif
   ignore_errors: yes
 
-- name: config_openldap_schemas_ldfis | activating ldaps
+- name: config_openldap_tls_certificates | activating ldaps
   lineinfile:
     path: "/etc/default/slapd"
     regexp: "^SLAPD_SERVICES="
