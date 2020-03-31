@@ -16,10 +16,40 @@
     group: www-data
     mode: 0640
   become: true
+  when: '"phpldapadmin" in openldap_debian_packages'
+
+- name: config_openldap | creating temp folder
+  file:
+    path: '{{ openldap_ldif_tmp_dir }}'
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
+  become: true
+
+- name: config_openldap | extending LDAP Schema
+  include_tasks: config_openldap_schemas.yml
+  when: openldap_schemas|length > 0
+
+- name: config_openldap | managing overlays
+  include_tasks: config_openldap_overlays.yml
+  with_items: "{{ openldap_overlays_and_acls }}"
+  loop_control:
+    loop_var: overlay
+
+- name: config_openldap | configurating SSL/TLS
+  include_tasks: config_openldap_tls_certificates.yml
+  when: 'openldap_tls_cert != ""'
+
+- name: config_openldap | deleting temp folder
+  file:
+    path: '{{ openldap_ldif_tmp_dir }}'
+    state: absent
+  become: true
 
 - name: config_openldap | creating database population config
   template:
-    src: etc/ldap/slapd.d/populate_content.ldif.j2
+    src: "{{openldap_populate_template}}"
     dest: /etc/ldap/slapd.d/populate_content.ldif
     owner: root
     group: root
